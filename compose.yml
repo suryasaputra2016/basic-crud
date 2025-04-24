@@ -1,0 +1,10 @@
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: surya
+      POSTGRES_PASSWORD: abc123
+      POSTGRES_DB: basic-crud
+    ports:
+    - 5432:5432
