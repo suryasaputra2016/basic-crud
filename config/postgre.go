@@ -42,3 +42,18 @@ func CloseDBConnection(db *sql.DB) error {
 	}
 	return nil
 }
+
+func CreateStudentTable(db *sql.DB) error {
+	query := `
+		CREATE TABLE IF NOT EXISTS students (
+			id SERIAL PRIMARY KEY,
+			name VARCHAR(50),
+			score INT
+		);`
+	_, err := db.Exec(query)
+	if err != nil {
+		return fmt.Errorf("creating student table: err")
+	}
+	log.Println("student table created.")
+	return nil
+}

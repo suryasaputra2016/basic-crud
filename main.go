@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/suryasaputra2016/basic-crud/config"
+	"github.com/suryasaputra2016/basic-crud/handler"
 )
 
 const (
@@ -19,11 +20,14 @@ func main() {
 	}
 	defer config.CloseDBConnection(db)
 
+	config.CreateStudentTable(db)
+	studentHandler := handler.NewStudentHandler(db)
+
 	router := http.NewServeMux()
-	router.HandleFunc("/create", handler)
-	router.HandleFunc("/read", handler)
-	router.HandleFunc("/update", handler)
-	router.HandleFunc("/delete", handler)
+	router.HandleFunc("POST /create", studentHandler.InsertStudent)
+	router.HandleFunc("GET /read", studentHandler.InsertStudent)
+	router.HandleFunc("PUT /update", studentHandler.InsertStudent)
+	router.HandleFunc("DELETE /delete", studentHandler.InsertStudent)
 
 	server := http.Server{
 		Addr:    PORT,
@@ -32,8 +36,4 @@ func main() {
 
 	fmt.Printf("Listening on port %s\n", PORT)
 	log.Fatal(server.ListenAndServe())
-}
-
-func handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "hello")
 }
