@@ -25,9 +25,9 @@ func main() {
 
 	router := http.NewServeMux()
 	router.HandleFunc("POST /create", studentHandler.InsertStudent)
-	router.HandleFunc("GET /read", studentHandler.InsertStudent)
-	router.HandleFunc("PUT /update", studentHandler.InsertStudent)
-	router.HandleFunc("DELETE /delete", studentHandler.InsertStudent)
+	router.HandleFunc("GET /read/{id}", studentHandler.GetStudent)
+	router.HandleFunc("PUT /update/{id}", studentHandler.UpdateStudent)
+	router.HandleFunc("DELETE /delete/{id}", studentHandler.DeleteStudent)
 
 	server := http.Server{
 		Addr:    PORT,
