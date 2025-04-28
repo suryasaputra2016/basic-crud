@@ -2,10 +2,13 @@ package main
 
 import (
 	"fmt"
+	"html/template"
 	"log"
 	"net/http"
+	"path/filepath"
 
 	"github.com/suryasaputra2016/basic-crud/config"
+	"github.com/suryasaputra2016/basic-crud/files"
 	"github.com/suryasaputra2016/basic-crud/handler"
 )
 
@@ -23,7 +26,14 @@ func main() {
 	config.CreateStudentTable(db)
 	studentHandler := handler.NewStudentHandler(db)
 
+	temp, err := template.ParseFS(files.Templates, filepath.Join("templates", "home.html"))
+	if err != nil {
+		log.Fatal(err)
+	}
+	homeHandler := handler.NewHomeHandler(temp)
+
 	router := http.NewServeMux()
+	router.HandleFunc("GET /home", homeHandler.GoHome)
 	router.HandleFunc("POST /create", studentHandler.InsertStudent)
 	router.HandleFunc("GET /read/{id}", studentHandler.GetStudent)
 	router.HandleFunc("PUT /update/{id}", studentHandler.UpdateStudent)
