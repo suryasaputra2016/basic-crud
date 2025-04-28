@@ -39,6 +39,8 @@ func main() {
 	router.HandleFunc("PUT /update/{id}", studentHandler.UpdateStudent)
 	router.HandleFunc("DELETE /delete/{id}", studentHandler.DeleteStudent)
 
+	router.Handle("/static/", http.StripPrefix("/static", http.FileServer(http.FS(files.Assets()))))
+
 	server := http.Server{
 		Addr:    PORT,
 		Handler: router,
